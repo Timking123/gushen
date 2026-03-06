@@ -1,0 +1,41 @@
+{
+  "marketCap": {
+    "tiers": {
+      "mega": {
+        "threshold": 200000000000,
+        "label": "超大盘 (>$200B)"
+      },
+      "large": {
+        "threshold": 10000000000,
+        "label": "大盘 ($10B-$200B)"
+      },
+      "mid": {
+        "threshold": 2000000000,
+        "label": "中盘 ($2B-$10B)"
+      },
+      "small": {
+        "threshold": 300000000,
+        "label": "小盘 ($300M-$2B)"
+      },
+      "micro": {
+        "threshold": 0,
+        "label": "微盘 (<$300M)"
+      }
+    }
+  },
+  "userSettings": {
+    "priceAlertThreshold": {
+      "min": 0.1,
+      "max": 50,
+      "default": 5.0
+    }
+  },
+  "cache": {
+    "ttl": {
+      "quote": 60,
+      "sectorList": 3600,
+      "heatmap": 300
+    }
+  }
+}
+

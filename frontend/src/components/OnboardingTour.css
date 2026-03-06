@@ -1,0 +1,144 @@
+.onboarding-tour {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+.tour-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.tour-tooltip {
+  position: fixed;
+  width: 320px;
+  background: var(--bg-card, #fff);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  animation: tooltipFadeIn 0.3s ease;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-light, #f0f0f0);
+}
+
+.tooltip-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary, #1976d2);
+}
+
+.tooltip-header .close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-tertiary, #999);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.tooltip-header .close-btn:hover {
+  color: var(--text-primary, #333);
+}
+
+.tooltip-content {
+  padding: 1rem;
+}
+
+.tooltip-content p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text-secondary, #666);
+}
+
+.tooltip-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-top: 1px solid var(--border-light, #f0f0f0);
+}
+
+.step-indicator {
+  display: flex;
+  gap: 6px;
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-color, #e0e0e0);
+  transition: background 0.2s;
+}
+
+.step-dot.active {
+  background: var(--primary, #1976d2);
+}
+
+.tooltip-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.prev-btn,
+.next-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.prev-btn {
+  background: transparent;
+  border: 1px solid var(--border-color, #e0e0e0);
+  color: var(--text-secondary, #666);
+}
+
+.prev-btn:hover {
+  border-color: var(--primary, #1976d2);
+  color: var(--primary, #1976d2);
+}
+
+.next-btn {
+  background: var(--primary, #1976d2);
+  border: none;
+  color: #fff;
+}
+
+.next-btn:hover {
+  background: var(--primary-dark, #1565c0);
+}
+
+/* 高亮目标元素 */
+:global(.tour-highlight) {
+  position: relative;
+  z-index: 10001 !important;
+  box-shadow: 0 0 0 4px var(--primary, #1976d2), 0 0 20px rgba(25, 118, 210, 0.3) !important;
+  border-radius: 8px;
+}

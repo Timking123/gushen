@@ -1,0 +1,348 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.page p {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+}
+
+/* Page header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.page-header p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Home content */
+.home-content {
+  flex: 1;
+  width: 100%;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 1.5rem;
+  height: calc(100vh - 200px);
+}
+
+.sidebar {
+  overflow-y: auto;
+}
+
+.main-content {
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .sidebar,
+  .main-content {
+    height: 600px;
+  }
+}
+
+/* User info section */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info span {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.logout-button {
+  background-color: transparent;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.logout-button:hover {
+  background-color: var(--color-error);
+  color: white;
+}
+
+/* Guest prompt section */
+.guest-prompt {
+  margin-top: var(--spacing-xl);
+  text-align: center;
+  align-self: center;
+}
+
+.guest-prompt p {
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text-secondary);
+}
+
+.auth-links {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.auth-link {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.auth-link.primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.auth-link.primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.auth-link.secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.auth-link.secondary:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+
+/* Market Overview Section */
+.market-overview-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+
+/* ============================================
+   响应式布局样式
+   ============================================ */
+
+/* 移动端导航 */
+.mobile-nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+  .page {
+    padding: 1.5rem;
+  }
+
+  .page h1 {
+    font-size: 2rem;
+  }
+
+  .main-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .sidebar {
+    height: auto;
+    max-height: 400px;
+  }
+
+  .main-content {
+    height: auto;
+  }
+}
+
+/* 手机设备 */
+@media (max-width: 768px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .page h1 {
+    font-size: 1.5rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .header-right {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .nav-link {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .user-info {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .mobile-nav-toggle {
+    display: block;
+  }
+
+  .auth-links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .auth-link {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+  .page {
+    padding: 0.75rem;
+  }
+
+  .page h1 {
+    font-size: 1.25rem;
+  }
+
+  .page p {
+    font-size: 0.9rem;
+  }
+
+  .logout-button {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+  /* 增大可点击区域 */
+  button,
+  .nav-link,
+  .auth-link {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* 移除悬停效果 */
+  button:hover,
+  .nav-link:hover,
+  .auth-link:hover {
+    transform: none;
+  }
+
+  /* 添加触摸反馈 */
+  button:active,
+  .nav-link:active,
+  .auth-link:active {
+    opacity: 0.7;
+  }
+}
+
+/* 横屏手机 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .page {
+    padding: 0.5rem 1rem;
+  }
+
+  .page-header {
+    margin-bottom: 1rem;
+  }
+
+  .main-layout {
+    height: auto;
+  }
+}
+
+/* 高分辨率屏幕 */
+@media (min-width: 1440px) {
+  .page {
+    max-width: 1400px;
+  }
+
+  .main-layout {
+    grid-template-columns: 400px 1fr;
+    gap: 2rem;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .mobile-nav-toggle,
+  .logout-button,
+  .auth-links {
+    display: none;
+  }
+
+  .page {
+    padding: 0;
+    max-width: 100%;
+  }
+}

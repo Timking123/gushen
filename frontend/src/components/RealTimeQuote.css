@@ -1,0 +1,463 @@
+/* RealTimeQuote Component Styles */
+/* Implements Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6 */
+
+.realtime-quote {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.realtime-quote:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Loading state */
+.realtime-quote.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.realtime-quote.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  gap: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.error-icon {
+  font-size: 32px;
+}
+
+.error-message {
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.retry-btn {
+  padding: 8px 16px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: #dc2626;
+}
+
+/* Empty state */
+.realtime-quote.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  gap: 12px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+}
+
+.empty-icon {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+.empty-message {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Header */
+.quote-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.quote-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.quote-update-time {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Content */
+.quote-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Primary price display - Implements Requirement 4.1 */
+.quote-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 10px;
+}
+
+.price-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.current-price {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+/* Color classes - Implements Requirements 4.2, 4.3 */
+.current-price.positive,
+.price-change.positive {
+  color: #059669; /* Green for positive */
+}
+
+.current-price.negative,
+.price-change.negative {
+  color: #dc2626; /* Red for negative */
+}
+
+.current-price.neutral,
+.price-change.neutral {
+  color: #6b7280; /* Gray for neutral */
+}
+
+.price-change {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.change-amount {
+  font-weight: 600;
+}
+
+.change-percent {
+  font-weight: 500;
+}
+
+.price-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicator-arrow {
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+.indicator-arrow.up {
+  color: #059669;
+  animation: pulse-up 2s infinite;
+}
+
+.indicator-arrow.down {
+  color: #dc2626;
+  animation: pulse-down 2s infinite;
+}
+
+.indicator-arrow.neutral {
+  color: #9ca3af;
+}
+
+@keyframes pulse-up {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulse-down {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 0.7;
+  }
+}
+
+/* Price details grid - Implements Requirement 4.5 */
+.quote-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.detail-item:hover {
+  background: #f3f4f6;
+}
+
+.detail-label {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.detail-value.high {
+  color: #059669;
+}
+
+.detail-value.low {
+  color: #dc2626;
+}
+
+/* Volume section - Implements Requirement 4.6 */
+.quote-volume {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.volume-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  background: #f0f9ff;
+  border-radius: 8px;
+  border-left: 3px solid #3b82f6;
+}
+
+.volume-label {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.volume-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .realtime-quote {
+    padding: 16px;
+  }
+
+  .quote-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .quote-primary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .current-price {
+    font-size: 28px;
+  }
+
+  .price-change {
+    font-size: 14px;
+  }
+
+  .price-indicator {
+    align-self: flex-end;
+  }
+
+  .detail-row {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-volume {
+    grid-template-columns: 1fr;
+  }
+
+  .volume-value {
+    font-size: 16px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .realtime-quote {
+    background: #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .realtime-quote:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .quote-title {
+    color: #f9fafb;
+  }
+
+  .quote-update-time {
+    color: #9ca3af;
+  }
+
+  .quote-primary {
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  }
+
+  .current-price.positive,
+  .price-change.positive {
+    color: #34d399; /* Lighter green for dark mode */
+  }
+
+  .current-price.negative,
+  .price-change.negative {
+    color: #f87171; /* Lighter red for dark mode */
+  }
+
+  .current-price.neutral,
+  .price-change.neutral {
+    color: #9ca3af;
+  }
+
+  .indicator-arrow.up {
+    color: #34d399;
+  }
+
+  .indicator-arrow.down {
+    color: #f87171;
+  }
+
+  .detail-item {
+    background: #374151;
+  }
+
+  .detail-item:hover {
+    background: #4b5563;
+  }
+
+  .detail-label {
+    color: #9ca3af;
+  }
+
+  .detail-value {
+    color: #f9fafb;
+  }
+
+  .detail-value.high {
+    color: #34d399;
+  }
+
+  .detail-value.low {
+    color: #f87171;
+  }
+
+  .quote-header {
+    border-bottom-color: #374151;
+  }
+
+  .quote-volume {
+    border-top-color: #374151;
+  }
+
+  .volume-item {
+    background: #1e3a5f;
+    border-left-color: #60a5fa;
+  }
+
+  .volume-value {
+    color: #93c5fd;
+  }
+}
+
+/* Animation for real-time updates - Implements Requirement 4.4 */
+.realtime-quote .current-price,
+.realtime-quote .price-change {
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.realtime-quote.updating .current-price {
+  animation: price-flash 0.5s ease;
+}
+
+@keyframes price-flash {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
