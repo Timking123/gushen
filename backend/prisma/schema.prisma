@@ -1,0 +1,659 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Enums
+// ============================================
+
+enum UserRole {
+  USER
+  PREMIUM
+  ADMIN
+}
+
+// ============================================
+// User Related Models
+// ============================================
+
+// User model - core user authentication
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         UserRole @default(USER)
+  permissions  String[] @default([])
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  lastLoginAt  DateTime? @map("last_login_at")
+
+  // Relations
+  settings            UserSettings?
+  watchlistItems      WatchlistItem[]
+  portfolios          Portfolio[]
+  alerts              Alert[]
+  priceAlerts         PriceAlert[]
+  sectorSubscriptions SectorSubscription[]
+  screenerTemplates   ScreenerTemplate[]
+  auditLogs           AuditLog[]
+
+  @@index([role])
+  @@map("users")
+}
+
+// Audit log - records permission and role changes
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  action    String
+  resource  String
+  details   Json?
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// User settings - preferences and configuration
+model UserSettings {
+  id                    String   @id @default(uuid())
+  userId                String   @unique @map("user_id")
+  theme                 String   @default("system") // 'light' | 'dark' | 'system'
+  language              String   @default("zh") // 'zh' | 'en'
+  timezone              String   @default("Asia/Shanghai")
+  pushEnabled           Boolean  @default(true) @map("push_enabled")
+  quietHoursStart       String?  @map("quiet_hours_start") // HH:mm format
+  quietHoursEnd         String?  @map("quiet_hours_end") // HH:mm format
+  priceAlertThreshold   Float    @default(5.0) @map("price_alert_threshold") // Default price change threshold (%)
+  investmentPreferences String[] @default([]) @map("investment_preferences") // Investment preference tags
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_settings")
+}
+
+// Watchlist item - user's stock watchlist
+model WatchlistItem {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  symbol    String
+  addedAt   DateTime @default(now()) @map("added_at")
+  sortOrder Int      @default(0) @map("sort_order")
+  notes     String?
+
+  // Relations
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stock Stock @relation(fields: [symbol], references: [symbol])
+
+  @@unique([userId, symbol])
+  @@index([userId])
+  @@map("watchlist_items")
+}
+
+// ============================================
+// Stock Related Models
+// ============================================
+
+// Stock - basic stock information
+model Stock {
+  symbol    String   @id
+  name      String
+  exchange  String
+  sector    String?
+  industry  String?
+  marketCap BigInt?  @map("market_cap")
+  country   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  watchlistItems      WatchlistItem[]
+  quotes              StockQuote[]
+  quantRatings        QuantRating[]
+  fundamentalMetrics  FundamentalMetrics?
+  technicalIndicators TechnicalIndicators?
+  newsItems           NewsItemStock[]
+  earningsEvents      EarningsEvent[]
+  dividendEvents      DividendEvent[]
+  insiderTrades       InsiderTrade[]
+  secFilings          SECFiling[]
+  transcripts         Transcript[]
+  analystRatings      AnalystRating[]
+  portfolioHoldings   PortfolioHolding[]
+
+  @@index([sector])
+  @@index([exchange])
+  @@index([industry])
+  @@index([marketCap])
+  @@map("stocks")
+}
+
+// Stock quote - real-time price data
+model StockQuote {
+  id            String   @id @default(uuid())
+  symbol        String
+  price         Float
+  change        Float
+  changePercent Float    @map("change_percent")
+  volume        BigInt
+  avgVolume     BigInt?  @map("avg_volume")
+  high          Float
+  low           Float
+  open          Float
+  previousClose Float    @map("previous_close")
+  timestamp     DateTime @default(now())
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@index([symbol, timestamp])
+  @@map("stock_quotes")
+}
+
+// OHLCV - historical price data
+model OHLCV {
+  id        String   @id @default(uuid())
+  symbol    String
+  timestamp DateTime
+  open      Float
+  high      Float
+  low       Float
+  close     Float
+  volume    BigInt
+
+  @@unique([symbol, timestamp])
+  @@index([symbol, timestamp])
+  @@map("ohlcv")
+}
+
+// Quant rating - quantitative stock rating
+model QuantRating {
+  id                 String   @id @default(uuid())
+  symbol             String
+  overallRating      String   @map("overall_rating") // 'strong_buy' | 'buy' | 'hold' | 'sell' | 'strong_sell'
+  overallScore       Float    @map("overall_score") // 1-5 score
+  valuationScore     Float    @map("valuation_score")
+  growthScore        Float    @map("growth_score")
+  profitabilityScore Float    @map("profitability_score")
+  momentumScore      Float    @map("momentum_score")
+  revisionsScore     Float    @map("revisions_score")
+  sectorRank         Int?     @map("sector_rank")
+  industryRank       Int?     @map("industry_rank")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@index([symbol])
+  @@index([overallRating])
+  @@map("quant_ratings")
+}
+
+// Fundamental metrics - financial metrics for fundamental analysis
+model FundamentalMetrics {
+  id              String   @id @default(uuid())
+  symbol          String   @unique
+  pe              Float? // Price to Earnings
+  forwardPe       Float?   @map("forward_pe")
+  peg             Float? // Price/Earnings to Growth
+  ps              Float? // Price to Sales
+  pb              Float? // Price to Book
+  eps             Float? // Earnings Per Share
+  epsGrowth       Float?   @map("eps_growth")
+  revenue         BigInt?
+  revenueGrowth   Float?   @map("revenue_growth")
+  grossMargin     Float?   @map("gross_margin")
+  operatingMargin Float?   @map("operating_margin")
+  netMargin       Float?   @map("net_margin")
+  roe             Float? // Return on Equity
+  roa             Float? // Return on Assets
+  debtToEquity    Float?   @map("debt_to_equity")
+  currentRatio    Float?   @map("current_ratio")
+  dividendYield   Float?   @map("dividend_yield")
+  payoutRatio     Float?   @map("payout_ratio")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@map("fundamental_metrics")
+}
+
+// Technical indicators - technical analysis indicators
+model TechnicalIndicators {
+  id              String   @id @default(uuid())
+  symbol          String   @unique
+  rsi14           Float?   @map("rsi_14")
+  macdValue       Float?   @map("macd_value")
+  macdSignal      Float?   @map("macd_signal")
+  macdHistogram   Float?   @map("macd_histogram")
+  sma20           Float?   @map("sma_20")
+  sma50           Float?   @map("sma_50")
+  sma200          Float?   @map("sma_200")
+  ema12           Float?   @map("ema_12")
+  ema26           Float?   @map("ema_26")
+  bollingerUpper  Float?   @map("bollinger_upper")
+  bollingerMiddle Float?   @map("bollinger_middle")
+  bollingerLower  Float?   @map("bollinger_lower")
+  atr14           Float?   @map("atr_14")
+  adx14           Float?   @map("adx_14")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@map("technical_indicators")
+}
+
+// ============================================
+// News and Analysis Models
+// ============================================
+
+// News item - aggregated news
+model NewsItem {
+  id                String   @id @default(uuid())
+  title             String
+  summary           String?
+  content           String?
+  source            String
+  sourceCredibility String   @default("medium") @map("source_credibility") // 'high' | 'medium' | 'low'
+  url               String
+  publishedAt       DateTime @map("published_at")
+  sectors           String[] @default([])
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  // Relations
+  stocks         NewsItemStock[]
+  impactAnalysis ImpactAnalysis?
+
+  @@index([publishedAt])
+  @@map("news_items")
+}
+
+// Many-to-many relation between news and stocks
+model NewsItemStock {
+  newsId String @map("news_id")
+  symbol String
+
+  news  NewsItem @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  stock Stock    @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@id([newsId, symbol])
+  @@map("news_item_stocks")
+}
+
+// Impact analysis - AI-generated news impact analysis
+model ImpactAnalysis {
+  id                   String   @id @default(uuid())
+  newsId               String   @unique @map("news_id")
+  direction            String // 'bullish' | 'bearish' | 'neutral'
+  magnitude            String // 'high' | 'medium' | 'low'
+  confidence           Float // 0-1
+  summary              String
+  keyPoints            String[] @default([]) @map("key_points")
+  historicalComparison String?  @map("historical_comparison")
+  analyzedAt           DateTime @default(now()) @map("analyzed_at")
+
+  // Relations
+  news NewsItem @relation(fields: [newsId], references: [id], onDelete: Cascade)
+
+  @@map("impact_analyses")
+}
+
+// SEC filing - SEC documents
+model SECFiling {
+  id             String    @id @default(uuid())
+  symbol         String
+  formType       String    @map("form_type") // 10-K, 10-Q, 8-K, etc.
+  filedAt        DateTime  @map("filed_at")
+  periodOfReport DateTime? @map("period_of_report")
+  url            String
+  summary        String?
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@index([symbol, filedAt])
+  @@map("sec_filings")
+}
+
+// Transcript - earnings call transcripts
+model Transcript {
+  id        String   @id @default(uuid())
+  symbol    String
+  quarter   String // Q1 2024
+  eventType String   @default("earnings") @map("event_type") // 'earnings' | 'investor_day' | 'conference'
+  date      DateTime
+  aiSummary String?  @map("ai_summary")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  stock        Stock                   @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+  participants TranscriptParticipant[]
+  sections     TranscriptSection[]
+
+  @@index([symbol, date])
+  @@map("transcripts")
+}
+
+// Transcript participant
+model TranscriptParticipant {
+  id           String  @id @default(uuid())
+  transcriptId String  @map("transcript_id")
+  name         String
+  title        String?
+  company      String?
+
+  // Relations
+  transcript Transcript @relation(fields: [transcriptId], references: [id], onDelete: Cascade)
+
+  @@map("transcript_participants")
+}
+
+// Transcript section
+model TranscriptSection {
+  id           String @id @default(uuid())
+  transcriptId String @map("transcript_id")
+  type         String // 'prepared_remarks' | 'qa'
+  speaker      String
+  content      String
+
+  // Relations
+  transcript Transcript @relation(fields: [transcriptId], references: [id], onDelete: Cascade)
+
+  @@map("transcript_sections")
+}
+
+// ============================================
+// Earnings and Dividend Models
+// ============================================
+
+// Earnings event - earnings calendar
+model EarningsEvent {
+  id              String   @id @default(uuid())
+  symbol          String
+  reportDate      DateTime @map("report_date")
+  fiscalQuarter   String   @map("fiscal_quarter")
+  fiscalYear      Int      @map("fiscal_year")
+  timing          String   @default("unknown") // 'bmo' | 'amc' | 'unknown' (Before Market Open / After Market Close)
+  epsEstimate     Float?   @map("eps_estimate")
+  epsActual       Float?   @map("eps_actual")
+  epsSurprise     Float?   @map("eps_surprise")
+  revenueEstimate BigInt?  @map("revenue_estimate")
+  revenueActual   BigInt?  @map("revenue_actual")
+  revenueSurprise Float?   @map("revenue_surprise")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@unique([symbol, fiscalYear, fiscalQuarter])
+  @@index([reportDate])
+  @@map("earnings_events")
+}
+
+// Dividend event - dividend calendar
+model DividendEvent {
+  id         String   @id @default(uuid())
+  symbol     String
+  exDate     DateTime @map("ex_date")
+  payDate    DateTime @map("pay_date")
+  recordDate DateTime @map("record_date")
+  amount     Float
+  frequency  String   @default("quarterly") // 'annual' | 'semi_annual' | 'quarterly' | 'monthly'
+  yield      Float?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@index([symbol, exDate])
+  @@map("dividend_events")
+}
+
+// Insider trade - insider trading records
+model InsiderTrade {
+  id              String   @id @default(uuid())
+  symbol          String
+  filedAt         DateTime @map("filed_at")
+  tradeDate       DateTime @map("trade_date")
+  insiderName     String   @map("insider_name")
+  insiderTitle    String?  @map("insider_title")
+  transactionType String   @map("transaction_type") // 'buy' | 'sell' | 'exercise'
+  shares          BigInt
+  pricePerShare   Float    @map("price_per_share")
+  totalValue      Float    @map("total_value")
+  sharesOwned     BigInt?  @map("shares_owned")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@index([symbol, tradeDate])
+  @@map("insider_trades")
+}
+
+// ============================================
+// Screener Models
+// ============================================
+
+// Screener template - saved screener filters
+model ScreenerTemplate {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  description String?
+  filters     Json // ScreenerFilters as JSON
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("screener_templates")
+}
+
+// ============================================
+// Portfolio Models
+// ============================================
+
+// Portfolio - user investment portfolio
+model Portfolio {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user         User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  holdings     PortfolioHolding[]
+  transactions PortfolioTransaction[]
+
+  @@index([userId])
+  @@map("portfolios")
+}
+
+// Portfolio holding - stocks held in portfolio
+model PortfolioHolding {
+  id           String   @id @default(uuid())
+  portfolioId  String   @map("portfolio_id")
+  symbol       String
+  shares       Float
+  avgCostBasis Float    @map("avg_cost_basis")
+  addedAt      DateTime @default(now()) @map("added_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  portfolio Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  stock     Stock     @relation(fields: [symbol], references: [symbol])
+
+  @@unique([portfolioId, symbol])
+  @@map("portfolio_holdings")
+}
+
+// Portfolio transaction - buy/sell/dividend records
+model PortfolioTransaction {
+  id              String   @id @default(uuid())
+  portfolioId     String   @map("portfolio_id")
+  symbol          String
+  type            String // 'buy' | 'sell' | 'dividend'
+  shares          Float
+  pricePerShare   Float    @map("price_per_share")
+  totalAmount     Float    @map("total_amount")
+  transactionDate DateTime @map("transaction_date")
+  notes           String?
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  // Relations
+  portfolio Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@index([portfolioId, transactionDate])
+  @@map("portfolio_transactions")
+}
+
+// ============================================
+// Alert Models
+// ============================================
+
+// Alert - user notifications
+model Alert {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  type      String // 'price' | 'news' | 'earnings' | 'dividend' | 'insider' | 'rating'
+  symbol    String?
+  sector    String?
+  title     String
+  message   String
+  priority  String   @default("medium") // 'high' | 'medium' | 'low'
+  read      Boolean  @default(false)
+  metadata  Json? // Additional data as JSON
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+  @@map("alerts")
+}
+
+// Price alert - user-defined price alerts
+model PriceAlert {
+  id          String    @id @default(uuid())
+  userId      String    @map("user_id")
+  symbol      String
+  condition   String // 'above' | 'below' | 'change_percent'
+  targetValue Float     @map("target_value")
+  triggered   Boolean   @default(false)
+  triggeredAt DateTime? @map("triggered_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, triggered])
+  @@index([symbol])
+  @@map("price_alerts")
+}
+
+// ============================================
+// Sector Models
+// ============================================
+
+// Sector - industry sectors
+model Sector {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  nameZh      String   @map("name_zh")
+  description String?
+  stockCount  Int      @default(0) @map("stock_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  subscriptions SectorSubscription[]
+
+  @@map("sectors")
+}
+
+// Sector subscription - user sector subscriptions
+model SectorSubscription {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  sectorId     String   @map("sector_id")
+  subscribedAt DateTime @default(now()) @map("subscribed_at")
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sector Sector @relation(fields: [sectorId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sectorId])
+  @@map("sector_subscriptions")
+}
+
+// ============================================
+// Analyst Rating Models
+// ============================================
+
+// Analyst rating - Wall Street analyst ratings
+model AnalystRating {
+  id                  String   @id @default(uuid())
+  symbol              String
+  analyst             String // Analyst name
+  firm                String // Firm name
+  rating              String // 'strong_buy' | 'buy' | 'hold' | 'sell' | 'strong_sell'
+  targetPrice         Float?   @map("target_price")
+  previousRating      String?  @map("previous_rating")
+  previousTargetPrice Float?   @map("previous_target_price")
+  ratingDate          DateTime @map("rating_date")
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  // Relations
+  stock Stock @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+
+  @@index([symbol, ratingDate])
+  @@map("analyst_ratings")
+}
+
+// ============================================
+// Offline Message Cache
+// ============================================
+
+// Offline message - cached messages for offline users
+model OfflineMessage {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  type      String // Message type
+  payload   Json // Message content
+  priority  String   @default("medium") // 'high' | 'medium' | 'low'
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId, createdAt])
+  @@map("offline_messages")
+}

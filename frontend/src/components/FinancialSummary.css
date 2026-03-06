@@ -1,0 +1,367 @@
+/* FinancialSummary Component Styles */
+/* Implements Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6 */
+
+.financial-summary {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.financial-summary:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Loading state */
+.financial-summary.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 12px;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.financial-summary.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.error-icon {
+  font-size: 32px;
+}
+
+.error-message {
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.retry-btn {
+  padding: 8px 16px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: #dc2626;
+}
+
+/* Empty state - Implements Requirement 6.6 */
+.financial-summary.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+}
+
+.empty-icon {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+.empty-message {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Header */
+.financial-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.financial-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.financial-update-time {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Content */
+.financial-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Metrics Section */
+.metrics-section {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.section-icon {
+  font-size: 18px;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.metric-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.metric-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Value color classes */
+.metric-value.positive {
+  color: #059669;
+}
+
+.metric-value.negative {
+  color: #dc2626;
+}
+
+.metric-value.revenue {
+  color: #7c3aed;
+  font-size: 18px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .financial-summary {
+    padding: 16px;
+  }
+
+  .financial-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .metric-item {
+    padding: 10px 12px;
+  }
+
+  .metric-label {
+    font-size: 11px;
+  }
+
+  .metric-value {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-section {
+    padding: 12px;
+  }
+
+  .section-title {
+    font-size: 14px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .financial-summary {
+    background: #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .financial-summary:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .financial-title {
+    color: #f9fafb;
+  }
+
+  .financial-update-time {
+    color: #9ca3af;
+  }
+
+  .financial-header {
+    border-bottom-color: #374151;
+  }
+
+  .metrics-section {
+    background: #374151;
+  }
+
+  .section-title {
+    color: #e5e7eb;
+  }
+
+  .metric-item {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
+
+  .metric-item:hover {
+    border-color: #60a5fa;
+    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.15);
+  }
+
+  .metric-label {
+    color: #9ca3af;
+  }
+
+  .metric-value {
+    color: #f9fafb;
+  }
+
+  .metric-value.positive {
+    color: #34d399;
+  }
+
+  .metric-value.negative {
+    color: #f87171;
+  }
+
+  .metric-value.revenue {
+    color: #a78bfa;
+  }
+
+  /* Error state dark mode */
+  .financial-summary.error {
+    background: #450a0a;
+    border-color: #7f1d1d;
+  }
+
+  .error-message {
+    color: #fca5a5;
+  }
+
+  /* Empty state dark mode */
+  .financial-summary.empty {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  .empty-message {
+    color: #9ca3af;
+  }
+}
+
+/* Animation for data loading */
+.financial-summary .metric-value {
+  transition: color 0.3s ease;
+}
+
+/* Highlight effect for important metrics */
+.metric-item:has(.metric-value.positive),
+.metric-item:has(.metric-value.negative) {
+  position: relative;
+}
+
+.metric-item:has(.metric-value.positive)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #059669;
+  border-radius: 3px 0 0 3px;
+}
+
+.metric-item:has(.metric-value.negative)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #dc2626;
+  border-radius: 3px 0 0 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .metric-item:has(.metric-value.positive)::before {
+    background: #34d399;
+  }
+
+  .metric-item:has(.metric-value.negative)::before {
+    background: #f87171;
+  }
+}

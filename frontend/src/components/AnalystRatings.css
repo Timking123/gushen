@@ -1,0 +1,673 @@
+/* AnalystRatings Component Styles */
+/* Implements Requirements: 7.1, 7.2, 7.3, 7.4, 7.5 */
+
+.analyst-ratings {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.analyst-ratings:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Loading state */
+.analyst-ratings.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 12px;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.analyst-ratings.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.error-icon {
+  font-size: 32px;
+}
+
+.error-message {
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.retry-btn {
+  padding: 8px 16px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: #dc2626;
+}
+
+/* Empty state - Implements Requirement 7.5 */
+.analyst-ratings.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+}
+
+.empty-icon {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+.empty-message {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Header */
+.analyst-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.analyst-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.analyst-count {
+  font-size: 14px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* Content */
+.analyst-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Ratings Section */
+.ratings-section {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.section-icon {
+  font-size: 18px;
+}
+
+/* Rating Distribution - Implements Requirement 7.1 */
+.rating-distribution {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rating-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rating-bar-label {
+  width: 80px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  flex-shrink: 0;
+}
+
+.rating-bar-track {
+  flex: 1;
+  height: 20px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rating-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.rating-bar-count {
+  width: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  text-align: right;
+}
+
+/* Rating bar colors */
+.bar-strong-buy {
+  background: linear-gradient(90deg, #059669, #10b981);
+}
+
+.bar-buy {
+  background: linear-gradient(90deg, #34d399, #6ee7b7);
+}
+
+.bar-hold {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.bar-sell {
+  background: linear-gradient(90deg, #f87171, #fca5a5);
+}
+
+.bar-strong-sell {
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+}
+
+/* Target Price Grid - Implements Requirement 7.2 */
+.target-price-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.price-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.price-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.price-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.price-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.price-value.current {
+  color: #3b82f6;
+}
+
+.price-value.target {
+  color: #7c3aed;
+}
+
+.price-value.high {
+  color: #059669;
+}
+
+.price-value.low {
+  color: #dc2626;
+}
+
+.price-value.upside.positive {
+  color: #059669;
+}
+
+.price-value.upside.negative {
+  color: #dc2626;
+}
+
+.upside-item {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #86efac;
+}
+
+.upside-item:has(.negative) {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-color: #fca5a5;
+}
+
+/* Recent Ratings List - Implements Requirements 7.3, 7.4 */
+.ratings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rating-item {
+  background: white;
+  border-radius: 8px;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.rating-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.rating-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.analyst-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.analyst-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.analyst-firm {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.rating-date {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.rating-item-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.rating-change {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rating-arrow,
+.target-arrow {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.rating-badge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.rating-strong-buy {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.rating-buy {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.rating-hold {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.rating-sell {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.rating-strong-sell {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.target-change {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.target-previous {
+  font-size: 13px;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.target-current {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .analyst-ratings {
+    padding: 16px;
+  }
+
+  .analyst-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .target-price-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rating-bar-label {
+    width: 70px;
+    font-size: 12px;
+  }
+
+  .rating-item-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .target-price-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ratings-section {
+    padding: 12px;
+  }
+
+  .section-title {
+    font-size: 14px;
+  }
+
+  .rating-bar-row {
+    flex-wrap: wrap;
+  }
+
+  .rating-bar-label {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  .rating-bar-track {
+    flex: 1;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .analyst-ratings {
+    background: #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .analyst-ratings:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .analyst-title {
+    color: #f9fafb;
+  }
+
+  .analyst-count {
+    background: #374151;
+    color: #9ca3af;
+  }
+
+  .analyst-header {
+    border-bottom-color: #374151;
+  }
+
+  .ratings-section {
+    background: #374151;
+  }
+
+  .section-title {
+    color: #e5e7eb;
+  }
+
+  .rating-bar-label {
+    color: #e5e7eb;
+  }
+
+  .rating-bar-track {
+    background: #4b5563;
+  }
+
+  .rating-bar-count {
+    color: #f9fafb;
+  }
+
+  .price-item {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
+
+  .price-item:hover {
+    border-color: #60a5fa;
+    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.15);
+  }
+
+  .price-label {
+    color: #9ca3af;
+  }
+
+  .price-value {
+    color: #f9fafb;
+  }
+
+  .price-value.current {
+    color: #60a5fa;
+  }
+
+  .price-value.target {
+    color: #a78bfa;
+  }
+
+  .price-value.high {
+    color: #34d399;
+  }
+
+  .price-value.low {
+    color: #f87171;
+  }
+
+  .price-value.upside.positive {
+    color: #34d399;
+  }
+
+  .price-value.upside.negative {
+    color: #f87171;
+  }
+
+  .upside-item {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    border-color: #059669;
+  }
+
+  .upside-item:has(.negative) {
+    background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+    border-color: #dc2626;
+  }
+
+  .rating-item {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
+
+  .rating-item:hover {
+    border-color: #60a5fa;
+    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.15);
+  }
+
+  .analyst-name {
+    color: #f9fafb;
+  }
+
+  .analyst-firm {
+    color: #9ca3af;
+  }
+
+  .rating-date {
+    color: #6b7280;
+  }
+
+  .target-previous {
+    color: #6b7280;
+  }
+
+  .target-current {
+    color: #f9fafb;
+  }
+
+  /* Rating badges dark mode */
+  .rating-strong-buy {
+    background: #064e3b;
+    color: #6ee7b7;
+  }
+
+  .rating-buy {
+    background: #065f46;
+    color: #34d399;
+  }
+
+  .rating-hold {
+    background: #78350f;
+    color: #fcd34d;
+  }
+
+  .rating-sell {
+    background: #7f1d1d;
+    color: #fca5a5;
+  }
+
+  .rating-strong-sell {
+    background: #450a0a;
+    color: #f87171;
+  }
+
+  /* Error state dark mode */
+  .analyst-ratings.error {
+    background: #450a0a;
+    border-color: #7f1d1d;
+  }
+
+  .error-message {
+    color: #fca5a5;
+  }
+
+  /* Empty state dark mode */
+  .analyst-ratings.empty {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  .empty-message {
+    color: #9ca3af;
+  }
+}
+
+/* Animation for data loading */
+.analyst-ratings .price-value {
+  transition: color 0.3s ease;
+}
+
+/* Highlight effect for upside indicator */
+.upside-item {
+  position: relative;
+}
+
+.upside-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #059669;
+  border-radius: 3px 0 0 3px;
+}
+
+.upside-item:has(.negative)::before {
+  background: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  .upside-item::before {
+    background: #34d399;
+  }
+
+  .upside-item:has(.negative)::before {
+    background: #f87171;
+  }
+}

@@ -1,0 +1,651 @@
+/* InsiderTrades Component Styles */
+/* Implements Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6 */
+
+.insider-trades {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.insider-trades:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Loading state */
+.insider-trades.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 12px;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.insider-trades.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.error-icon {
+  font-size: 32px;
+}
+
+.error-message {
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.retry-btn {
+  padding: 8px 16px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: #dc2626;
+}
+
+/* Empty state - Implements Requirement 8.6 */
+.insider-trades.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+}
+
+.empty-icon {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+.empty-message {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Header */
+.insider-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.insider-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.insider-period {
+  font-size: 14px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* Content */
+.insider-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Trades Section */
+.trades-section {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.section-icon {
+  font-size: 18px;
+}
+
+/* Summary Grid - Implements Requirement 8.3 */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.summary-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.summary-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.summary-card-icon {
+  font-size: 20px;
+}
+
+.summary-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.summary-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summary-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.stat-value.positive {
+  color: #059669;
+}
+
+.stat-value.negative {
+  color: #dc2626;
+}
+
+/* Buy card styling - Implements Requirement 8.4 */
+.buy-card {
+  border-left: 4px solid #059669;
+}
+
+.buy-card .summary-card-title {
+  color: #059669;
+}
+
+/* Sell card styling - Implements Requirement 8.5 */
+.sell-card {
+  border-left: 4px solid #dc2626;
+}
+
+.sell-card .summary-card-title {
+  color: #dc2626;
+}
+
+/* Net card styling */
+.net-card {
+  border-left: 4px solid #6b7280;
+}
+
+.net-card.net-positive {
+  border-left-color: #059669;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+}
+
+.net-card.net-negative {
+  border-left-color: #dc2626;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+}
+
+/* Trades List - Implements Requirements 8.1, 8.2 */
+.trades-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trade-item {
+  background: white;
+  border-radius: 8px;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.trade-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.trade-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.insider-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.insider-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.insider-title-text {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.trade-date {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.trade-item-body {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Transaction type badges - Implements Requirements 8.4, 8.5 */
+.transaction-type {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.transaction-buy {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.transaction-sell {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.transaction-exercise {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.trade-details {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.trade-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-label {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.trade-item-footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #e5e7eb;
+}
+
+.shares-owned {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .insider-trades {
+    padding: 16px;
+  }
+
+  .insider-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trade-item-body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .trade-details {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .trades-section {
+    padding: 12px;
+  }
+
+  .section-title {
+    font-size: 14px;
+  }
+
+  .summary-card {
+    padding: 12px;
+  }
+
+  .trade-item {
+    padding: 12px;
+  }
+
+  .trade-details {
+    gap: 12px;
+  }
+
+  .trade-detail {
+    min-width: 80px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .insider-trades {
+    background: #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .insider-trades:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .insider-title {
+    color: #f9fafb;
+  }
+
+  .insider-period {
+    background: #374151;
+    color: #9ca3af;
+  }
+
+  .insider-header {
+    border-bottom-color: #374151;
+  }
+
+  .trades-section {
+    background: #374151;
+  }
+
+  .section-title {
+    color: #e5e7eb;
+  }
+
+  .summary-card {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
+
+  .summary-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .summary-card-header {
+    border-bottom-color: #4b5563;
+  }
+
+  .summary-card-title {
+    color: #e5e7eb;
+  }
+
+  .stat-label {
+    color: #9ca3af;
+  }
+
+  .stat-value {
+    color: #f9fafb;
+  }
+
+  .stat-value.positive {
+    color: #34d399;
+  }
+
+  .stat-value.negative {
+    color: #f87171;
+  }
+
+  /* Buy card dark mode */
+  .buy-card {
+    border-left-color: #34d399;
+  }
+
+  .buy-card .summary-card-title {
+    color: #34d399;
+  }
+
+  /* Sell card dark mode */
+  .sell-card {
+    border-left-color: #f87171;
+  }
+
+  .sell-card .summary-card-title {
+    color: #f87171;
+  }
+
+  /* Net card dark mode */
+  .net-card.net-positive {
+    border-left-color: #34d399;
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+  }
+
+  .net-card.net-negative {
+    border-left-color: #f87171;
+    background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+  }
+
+  .trade-item {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
+
+  .trade-item:hover {
+    border-color: #60a5fa;
+    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.15);
+  }
+
+  .insider-name {
+    color: #f9fafb;
+  }
+
+  .insider-title-text {
+    color: #9ca3af;
+  }
+
+  .trade-date {
+    color: #6b7280;
+  }
+
+  /* Transaction type badges dark mode */
+  .transaction-buy {
+    background: #064e3b;
+    color: #6ee7b7;
+  }
+
+  .transaction-sell {
+    background: #450a0a;
+    color: #fca5a5;
+  }
+
+  .transaction-exercise {
+    background: #312e81;
+    color: #a5b4fc;
+  }
+
+  .detail-label {
+    color: #6b7280;
+  }
+
+  .detail-value {
+    color: #f9fafb;
+  }
+
+  .trade-item-footer {
+    border-top-color: #4b5563;
+  }
+
+  .shares-owned {
+    color: #9ca3af;
+  }
+
+  /* Error state dark mode */
+  .insider-trades.error {
+    background: #450a0a;
+    border-color: #7f1d1d;
+  }
+
+  .error-message {
+    color: #fca5a5;
+  }
+
+  /* Empty state dark mode */
+  .insider-trades.empty {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  .empty-message {
+    color: #9ca3af;
+  }
+}
+
+/* Animation for data loading */
+.insider-trades .stat-value,
+.insider-trades .detail-value {
+  transition: color 0.3s ease;
+}
+
+/* Highlight effect for transaction type */
+.trade-item:has(.transaction-buy) {
+  position: relative;
+}
+
+.trade-item:has(.transaction-buy)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #059669;
+  border-radius: 3px 0 0 3px;
+}
+
+.trade-item:has(.transaction-sell)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #dc2626;
+  border-radius: 3px 0 0 3px;
+}
+
+.trade-item:has(.transaction-exercise)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #4f46e5;
+  border-radius: 3px 0 0 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .trade-item:has(.transaction-buy)::before {
+    background: #34d399;
+  }
+
+  .trade-item:has(.transaction-sell)::before {
+    background: #f87171;
+  }
+
+  .trade-item:has(.transaction-exercise)::before {
+    background: #818cf8;
+  }
+}

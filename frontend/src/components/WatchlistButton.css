@@ -1,0 +1,283 @@
+/* WatchlistButton Component Styles */
+/* Implements Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6 */
+
+.watchlist-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.watchlist-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+.watchlist-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.watchlist-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Icon styling */
+.watchlist-button-icon {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.watchlist-button:hover:not(:disabled) .watchlist-button-icon {
+  transform: scale(1.1);
+}
+
+/* Text styling */
+.watchlist-button-text {
+  white-space: nowrap;
+}
+
+/* Status badge for "已添加" state */
+.watchlist-status-badge {
+  display: none;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #10b981;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* In watchlist state - show as "已添加" with remove option */
+.watchlist-button.in-watchlist {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.watchlist-button.in-watchlist:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
+}
+
+.watchlist-button.in-watchlist .watchlist-status-badge {
+  display: inline-block;
+}
+
+/* Loading state */
+.watchlist-button.loading {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
+
+.watchlist-button.loading .watchlist-button-icon {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Not authenticated state */
+.watchlist-button.not-authenticated {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
+
+.watchlist-button.not-authenticated:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  box-shadow: 0 4px 8px rgba(107, 114, 128, 0.4);
+}
+
+/* Compact variant */
+.watchlist-button.compact {
+  padding: 6px 12px;
+  font-size: 12px;
+  gap: 6px;
+}
+
+.watchlist-button.compact .watchlist-button-icon {
+  font-size: 14px;
+}
+
+.watchlist-button.compact .watchlist-status-badge {
+  font-size: 8px;
+  padding: 1px 4px;
+}
+
+/* Icon-only variant */
+.watchlist-button.icon-only {
+  padding: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+}
+
+.watchlist-button.icon-only .watchlist-button-text {
+  display: none;
+}
+
+.watchlist-button.icon-only .watchlist-button-icon {
+  font-size: 18px;
+}
+
+.watchlist-button.icon-only .watchlist-status-badge {
+  display: none;
+}
+
+/* Large variant */
+.watchlist-button.large {
+  padding: 14px 24px;
+  font-size: 16px;
+  gap: 10px;
+  border-radius: 10px;
+}
+
+.watchlist-button.large .watchlist-button-icon {
+  font-size: 20px;
+}
+
+/* Outline variant */
+.watchlist-button.outline {
+  background: transparent;
+  border: 2px solid #3b82f6;
+  color: #3b82f6;
+  box-shadow: none;
+}
+
+.watchlist-button.outline:hover:not(:disabled) {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.watchlist-button.outline.in-watchlist {
+  border-color: #10b981;
+  color: #10b981;
+  background: transparent;
+}
+
+.watchlist-button.outline.in-watchlist:hover:not(:disabled) {
+  border-color: #ef4444;
+  background: #ef4444;
+  color: white;
+}
+
+.watchlist-button.outline.not-authenticated {
+  border-color: #6b7280;
+  color: #6b7280;
+  background: transparent;
+}
+
+.watchlist-button.outline.not-authenticated:hover:not(:disabled) {
+  background: #6b7280;
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .watchlist-button {
+    padding: 8px 14px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .watchlist-button-icon {
+    font-size: 14px;
+  }
+
+  .watchlist-status-badge {
+    font-size: 9px;
+    padding: 1px 4px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .watchlist-button {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .watchlist-button:hover:not(:disabled) {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .watchlist-button.in-watchlist {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .watchlist-button.in-watchlist:hover:not(:disabled) {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .watchlist-button.outline {
+    border-color: #60a5fa;
+    color: #60a5fa;
+  }
+
+  .watchlist-button.outline:hover:not(:disabled) {
+    background: #60a5fa;
+    color: #1f2937;
+  }
+
+  .watchlist-button.outline.in-watchlist {
+    border-color: #34d399;
+    color: #34d399;
+  }
+
+  .watchlist-button.outline.in-watchlist:hover:not(:disabled) {
+    border-color: #f87171;
+    background: #f87171;
+    color: #1f2937;
+  }
+
+  .watchlist-button.outline.not-authenticated {
+    border-color: #9ca3af;
+    color: #9ca3af;
+  }
+
+  .watchlist-button.outline.not-authenticated:hover:not(:disabled) {
+    background: #9ca3af;
+    color: #1f2937;
+  }
+}
+
+/* Focus state for accessibility */
+.watchlist-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.watchlist-button.in-watchlist:focus {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.5);
+}
+
+.watchlist-button:focus:not(:focus-visible) {
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.watchlist-button.in-watchlist:focus:not(:focus-visible) {
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}

@@ -1,0 +1,572 @@
+/* SECFilingList Component Styles */
+/* Implements Requirements 20.1, 20.3, 20.5 */
+
+.sec-filing-list {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Loading state */
+.sec-filing-list.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  color: #6b7280;
+}
+
+.sec-filing-list .loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: sec-spin 1s linear infinite;
+}
+
+@keyframes sec-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.sec-filing-list.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  gap: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.sec-filing-list .error-icon {
+  font-size: 32px;
+}
+
+.sec-filing-list .error-message {
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.sec-filing-list .retry-btn {
+  padding: 8px 16px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.sec-filing-list .retry-btn:hover {
+  background: #dc2626;
+}
+
+/* Header */
+.sec-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.sec-list-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sec-list-header .list-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.sec-list-header .filing-count {
+  font-size: 13px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-toggle:hover {
+  background: #e5e7eb;
+}
+
+.filter-toggle.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.filter-icon {
+  font-size: 14px;
+}
+
+/* Filters Panel */
+.filters-panel {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #e5e7eb;
+}
+
+.filter-section {
+  margin-bottom: 16px;
+}
+
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.filter-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.form-type-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.form-type-chip {
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 16px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-type-chip:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.form-type-chip.selected {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.date-filters {
+  display: flex;
+  gap: 16px;
+}
+
+.date-input-group {
+  flex: 1;
+}
+
+.date-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.apply-btn {
+  padding: 8px 16px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.apply-btn:hover {
+  background: #2563eb;
+}
+
+.clear-btn {
+  padding: 8px 16px;
+  background: white;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 12px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  opacity: 0.5;
+}
+
+.empty-message {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Filings List */
+.filings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filing-item {
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.filing-item:hover {
+  border-color: #d1d5db;
+}
+
+.filing-item.expanded {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.filing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.filing-header:hover {
+  background: #f3f4f6;
+}
+
+.filing-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-type-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Form type badge colors */
+.badge-annual {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge-quarterly {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.badge-event {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.badge-insider {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.badge-registration {
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+
+.badge-proxy {
+  background: #fce7f3;
+  color: #db2777;
+}
+
+.badge-institutional {
+  background: #f3e8ff;
+  color: #9333ea;
+}
+
+.badge-passive {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.badge-active {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.badge-other {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.filing-date {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.filing-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-btn {
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.view-btn:hover {
+  background: #e5e7eb;
+}
+
+.expand-icon {
+  font-size: 10px;
+  color: #9ca3af;
+  transition: transform 0.2s ease;
+}
+
+/* Filing Details */
+.filing-details {
+  padding: 16px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.detail-label {
+  font-size: 13px;
+  color: #6b7280;
+  min-width: 80px;
+}
+
+.detail-value {
+  font-size: 13px;
+  color: #111827;
+  font-weight: 500;
+}
+
+/* Summary Section */
+.summary-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.generate-summary-btn {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.generate-summary-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.generate-summary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.summary-text {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.no-summary {
+  font-size: 13px;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Action Buttons */
+.filing-action-buttons {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.primary-btn {
+  padding: 10px 20px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primary-btn:hover {
+  background: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .sec-filing-list {
+    padding: 16px;
+  }
+
+  .sec-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .filter-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .date-filters {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-type-chips {
+    gap: 6px;
+  }
+
+  .form-type-chip {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  .filing-header {
+    padding: 10px 12px;
+  }
+
+  .filing-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .filing-details {
+    padding: 12px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .detail-label {
+    min-width: auto;
+  }
+
+  .summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .generate-summary-btn {
+    width: 100%;
+  }
+
+  .filing-action-buttons {
+    flex-direction: column;
+  }
+
+  .primary-btn {
+    width: 100%;
+  }
+}
